@@ -63,7 +63,7 @@ class TestAnagram(unittest.TestCase):
             finder.main(self.input_5)
             output = out.getvalue()
             self.assertEqual(output.strip(),
-                             "on pots no stop eat ate spot tea")
+                             "on no\npots stop spot\neat ate tea")
         finally:
             sys.stdout = saved_stdout
 

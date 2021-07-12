@@ -18,22 +18,35 @@ def anagram(input_file):
         anagram_input = f.read()
 
     single_words = anagram_input.split()
-    anagrams = []
+
+    # a list of found words to stop script searching for words already
+    # identified as having anagrams
+    found_list = []
 
     # for each word, check if it is an anagram of any of the
     # other words in the list
     for word in single_words:
-        variations = list(map(''.join, itertools.permutations(word)))
-        variations = [v for v in variations if v != word]
-        for v in set(variations):
-            if v in single_words and word not in anagrams:
-                anagrams.append(word)
+        if word not in found_list:
+            # get all variations of the given word
+            variations = list(map(''.join, itertools.permutations(word)))
+            output = []
+            # check to exclude words that are anagrams of only themselves
+            for v in set(variations):
+                if v in single_words and v != word:
+                    # check for matches (anagrams) & output all matches
+                    # for given word to a single line
+                    for word in single_words:
+                        if word in variations and word not in output:
+                            output.append(word)
+                            found_list.append(word)
+            print(' '.join(output))
 
-    return ' '.join(anagrams) if anagrams else 'no anagrams found'
+    if not found_list:
+        print('no anagrams found')
 
 
 def main(input_file):
-    print(anagram(input_file))
+    anagram(input_file)
 
 if __name__ == "__main__":
     input_file = str(sys.argv[1])
